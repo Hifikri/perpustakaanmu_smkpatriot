@@ -1,0 +1,5 @@
+# Folder dependensi (di-install ulang dengan 'npm install')
+/node_modules
+
+# Folder hasil build (dibuat otomatis saat deploy)
+/dist

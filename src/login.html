@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  x-data="{ isMobileMenuOpen: false, isDarkMode: localStorage.getItem('theme') === 'dark' }"
+  x-init="$watch('isDarkMode', val => localStorage.setItem('theme', val ? 'dark' : 'light'))"
+  :class="{ 'dark': isDarkMode }"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="Perpustakaan, SMK, buku, digital, SMK Model Patriot IV Ciawigebang" />
+    <meta name="author" content="Dev && Admin Perpustakaan" />
+    <meta name="description" content="Website perpustakaan SMK Patriot IV Ciawigebang" />
+
+    <link rel="icon" href="./img/Favicon.png" type="image/x-icon" />
+
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <link href="./output.css" rel="stylesheet" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <title>Perpustakaan | SMK Model Patriot IV Ciawigebang</title>
+  </head>
+
+  <body class="font-sans bg-gray-100">
+    <header data-aos="fade-down" data-aos-duration="800" data-aos-once="true" class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <div class="flex items-center space-x-4 md:space-x-8">
+          <a href=""><img src="./img/Logo.png" alt="Logo Perpustakaan" class="h-10 w-10" /></a>
+          <nav class="hidden md:flex space-x-6 text-md font-medium">
+            <a href="index.html" class="text-black hover:text-green0 transition duration-500">Beranda</a>
+            <a href="index.html" class="text-black hover:text-green0 transition duration-500">Tentang</a>
+            <a href="index.html" class="text-black hover:text-green0 transition duration-500">Fitur</a>
+            <div class="relative" x-data="{ open: false, timeout: null }" @mouseenter="clearTimeout(timeout); open = true" @mouseleave="timeout = setTimeout(() => { open = false }, 100)" class="cursor-pointer">
+              <button @mouseover="open = true" class="flex items-center space-x-1 text-black hover:text-green0 transition duration-500 cursor-pointer">
+                <span>Berita</span>
+                <i data-feather="chevron-down" class="w-5 h-5 text-black cursor-pointer hover:text-green0 transition duration-500"></i>
+              </button>
+              <div
+                x-show="open"
+                class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform translate-y-2"
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 transform translate-y-0"
+                x-transition:leave-end="opacity-0 transform translate-y-2"
+              >
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">Berita Sekolah</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">Berita Perpustakaan</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <button @click="isDarkMode = !isDarkMode" class="hidden md:block text-black hover:text-green0 transition duration-500 focus:outline-none">
+            <i x-show="!isDarkMode" data-feather="sun" stroke-width="1.5" class="w-5 h-5 cursor-pointer"></i>
+            <i x-show="isDarkMode" data-feather="moon" stroke-width="1.5" class="w-5 h-5 cursor-pointer" style="display: none"></i>
+          </button>
+
+          <a href="#" class="hidden md:block text-black hover:text-green0 transition duration-500">
+            <i data-feather="bell" stroke-width="1.5" class="w-5 h-5"></i>
+          </a>
+
+          <a href="signup.html" class="hidden md:block text-black hover:text-green0 transition duration-500">
+            <i data-feather="user" stroke-width="1.5" class="w-5 h-5"></i>
+          </a>
+
+          <button
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
+            class="md:hidden text-gray-700 hover:text-green0 transition duration-500 focus:outline-none"
+            :aria-expanded="isMobileMenuOpen.toString()"
+            aria-controls="mobileNavMenu"
+          >
+            <i data-feather="menu" stroke-width="1.5" class="w-6 h-6 block" x-show="!isMobileMenuOpen" x-cloak></i>
+            <i data-feather="x" stroke-width="1.5" class="w-6 h-6 block" x-show="isMobileMenuOpen" x-cloak style="display: none"></i>
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="mobileNavMenu"
+        x-show="isMobileMenuOpen"
+        @click.outside="isMobileMenuOpen = false"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform scale-95"
+        x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 transform scale-100"
+        x-transition:leave-end="opacity-0 transform scale-95"
+        class="absolute top-full right-4 mt-2 w-60 bg-white rounded-lg shadow-sm border border-gray-200 md:hidden"
+        x-cloak
+        style="display: none"
+      >
+        <nav class="flex flex-col py-2">
+          <a href="#" @click="isMobileMenuOpen = false" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Beranda</a>
+          <a href="#" @click="isMobileMenuOpen = false" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Tentang</a>
+          <a href="#" @click="isMobileMenuOpen = false" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Fitur</a>
+          <div x-data="{ subMenuOpen: false }">
+            <button @click="subMenuOpen = !subMenuOpen" class="flex items-center justify-between w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0 cursor-pointer">
+              <span>Berita</span>
+              <i data-feather="chevron-down" class="w-4 h-4" x-show="!subMenuOpen"></i>
+              <i data-feather="chevron-up" class="w-4 h-4" x-show="subMenuOpen" style="display: none"></i>
+            </button>
+            <div x-show="subMenuOpen" class="ml-4 flex flex-col" style="display: none">
+              <a href="#" @click="isMobileMenuOpen = false; subMenuOpen = false;" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Berita Sekolah</a>
+              <a href="#" @click="isMobileMenuOpen = false; subMenuOpen = false;" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Berita Perpustakaan</a>
+            </div>
+          </div>
+          <hr class="my-2 border-gray-100" />
+          <a href="#" @click="isMobileMenuOpen = false" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">
+            <i data-feather="bell" class="w-5 h-5"></i>
+            <span>Notifikasi</span>
+          </a>
+          <a href="#" @click="isMobileMenuOpen = false" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">
+            <i data-feather="user" class="w-5 h-5"></i>
+            <span>Profil</span>
+          </a>
+          <hr class="my-2 border-gray-100" />
+          <div class="px-4 py-2.5 text-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600" :class="{ 'text-green0 font-semibold': !isDarkMode }">Light</span>
+              <button
+                type="button"
+                @click="isDarkMode = !isDarkMode; console.log('Dark mode toggled:', isDarkMode)"
+                :class="{ 'bg-green-600': isDarkMode, 'bg-gray-200': !isDarkMode }"
+                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                role="switch"
+                :aria-checked="isDarkMode.toString()"
+              >
+                <span class="sr-only">Use setting</span>
+                <span
+                  :class="{ 'translate-x-5': isDarkMode, 'translate-x-0': !isDarkMode }"
+                  class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                >
+                  <span
+                    :class="{ 'opacity-0 ease-out duration-100': isDarkMode, 'opacity-100 ease-in duration-200': !isDarkMode }"
+                    class="absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
+                    aria-hidden="true"
+                    ><i data-feather="sun" class="h-3 w-3 text-gray-400"></i
+                  ></span>
+                  <span
+                    :class="{ 'opacity-100 ease-in duration-200': isDarkMode, 'opacity-0 ease-out duration-100': !isDarkMode }"
+                    class="absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
+                    aria-hidden="true"
+                    ><i data-feather="moon" class="h-3 w-3 text-green0"></i
+                  ></span>
+                </span>
+              </button>
+              <span class="text-gray-600" :class="{ 'text-green0 font-semibold': isDarkMode }">Dark</span>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8" data-aos="zoom-in" data-aos-duration="800">
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col lg:flex-row w-full border border-gray-300">
+        <div x-data="slider()" class="w-full lg:w-1/2 slider-mobile-aspect lg:aspect-[4/3] relative text-white overflow-hidden bg-black">
+          <template x-for="(slide, index) in slides" :key="index">
+            <div
+              x-show="currentIndex === index"
+              class="absolute inset-0 bg-cover bg-center"
+              :style="`background-image: url('${slide.imageUrl}')`"
+              x-transition:enter="transition transform duration-700 ease-out"
+              x-transition:enter-start="opacity-100 translate-x-full"
+              x-transition:enter-end="opacity-100 translate-x-0"
+              x-transition:leave="transition transform duration-700 ease-in"
+              x-transition:leave-start="opacity-100 translate-x-0"
+              x-transition:leave-end="opacity-100 -translate-x-full"
+            ></div>
+          </template>
+
+          <div class="hidden lg:flex absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/10 p-6 md:p-8 flex-col justify-between pointer-events-none">
+            <div class="pointer-events-auto">
+              <h1
+                x-show="currentSlide.mainText"
+                class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white whitespace-pre-line leading-tight mt-4 lg:mt-8 drop-shadow-md"
+                x-html="currentSlide.mainText.replace(/\n/g, '<br/>')"
+                x-transition:enter="transition transform duration-700 ease-out delay-100"
+                x-transition:enter-start="opacity-100 translate-x-full"
+                x-transition:enter-end="opacity-100 translate-x-0"
+                x-transition:leave="transition transform duration-700 ease-in"
+                x-transition:leave-start="opacity-100 translate-x-0"
+                x-transition:leave-end="opacity-100 -translate-x-full"
+              ></h1>
+            </div>
+
+            <div class="pointer-events-auto">
+              <div
+                class="bg-black bg-opacity-60 p-4 rounded-lg shadow-lg mb-4 backdrop-blur-sm"
+                x-show="currentSlide.quote"
+                x-transition:enter="transition transform duration-700 ease-out delay-200"
+                x-transition:enter-start="opacity-100 translate-x-full"
+                x-transition:enter-end="opacity-100 translate-x-0"
+                x-transition:leave="transition transform duration-700 ease-in"
+                x-transition:leave-start="opacity-100 translate-x-0"
+                x-transition:leave-end="opacity-100 -translate-x-full"
+              >
+                <p class="text-sm text-gray-200 mb-2" x-text="currentSlide.quote"></p>
+                <p class="text-xs font-semibold text-white" x-text="currentSlide.author"></p>
+                <p class="text-xs text-gray-300" x-text="currentSlide.role"></p>
+              </div>
+
+              <div class="flex justify-end space-x-3">
+                <button
+                  @click="previous()"
+                  aria-label="Previous slide"
+                  class="bg-black bg-opacity-40 hover:bg-opacity-60 text-white p-2.5 rounded-full shadow-sm hover:focus:ring-2 hover:focus:ring-green0 focus:outline-none transition duration-500 cursor-pointer"
+                >
+                  <i data-feather="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <button
+                  @click="next()"
+                  aria-label="Next slide"
+                  class="bg-black bg-opacity-40 hover:bg-opacity-60 text-white p-2.5 rounded-full shadow-sm hover:focus:ring-2 hover:focus:ring-green0 focus:outline-none transition duration-500 cursor-pointer"
+                >
+                  <i data-feather="chevron-right" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 p-6 sm:p-8 md:p-12 flex flex-col justify-center">
+          <h2 class="text-2xl md:text-3xl font-bold text-black mb-1">Selamat Datang !</h2>
+          <p class="text-gray-600 text-sm mt-1 mb-6 md:mb-8">Selamat Datang Kembali di PerpustakaanMu SMK Model Patriot IV Ciawigebang</p>
+
+          <form action="#" method="POST">
+            <div class="mb-4">
+              <label for="username" class="block text-sm font-medium text-black mb-1">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                autocomplete="username"
+                required
+                placeholder="Masukkan Username Anda"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm sm:text-sm placeholder-gray-400"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="nis" class="block text-sm font-medium text-black mb-1">NIS / NIP</label>
+              <input
+                type="text"
+                id="nis"
+                name="nis"
+                required
+                placeholder="Masukkan Nomor Induk Siswa (NIS) atau NIP"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm sm:text-sm placeholder-gray-400"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="email" class="block text-sm font-medium text-black mb-1">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+                placeholder="Masukkan Email Anda"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm sm:text-sm placeholder-gray-400"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label for="password" class="block text-sm font-medium text-black mb-1">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required
+                placeholder="•••••••••"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-md shadow-sm sm:text-sm placeholder-gray-400"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-green0 hover:bg-green-700 text-white font-semibold py-2.5 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-500 cursor-pointer"
+            >
+              Sign-in
+            </button>
+
+            <p class="mt-4 text-sm text-black">
+              <a href="" class="text-center hover:text-blue1 transition duration-300">Lupa PasswordMu ?</a>
+            </p>
+            <p class="text-sm my-2 text-black">
+              Belum punya akun?
+              <a href="signup.html" class="font-medium text-blue2 hover:text-blue1 transition duration-300"> Daftar Dulu Disini ! </a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      function slider() {
+        return {
+          currentIndex: 0,
+          intervalId: null,
+          slides: [
+            {
+              imageUrl: "./img/LS-4.jpg",
+              mainText: "PERFECT\nLATER",
+              quote:
+                "Jangan takut gagal, tapi takutlah jika kamu tidak pernah mencoba. Ingat kamu tidak harus hebat saat memulai, tapi kamu harus memulai untuk menjadi hebat, dan Keberhasilan dimulai dari keputusan untuk mencoba. ~ Done Is Better than Perfect",
+              author: "Muh. Fikri Aldiyasa",
+              role: "Developer Perpustakaanmu",
+            },
+            {
+              imageUrl: "./img/LS-2.jpg",
+              mainText: "KEBERKAHAN\nDALAM ISLAM",
+              quote: "Lebih baik jadi pendosa yang merasa tidak pantas masuk surga, daripada ahli ibadah yang merasa sudah pasti masuk surga.",
+              author: "Habib Husein Jafar",
+              role: "Habib, Pendakwah",
+            },
+            {
+              imageUrl: "./img/LS-6.jpg",
+              mainText: "PEMIMPIN\n& KEADILAN",
+              quote:
+                "Pemimpin itu harus punya dua hal: keberanian untuk mengambil keputusan yang benar dan integritas untuk tidak tergoda oleh kekuasaan. Pemimpin itu harus punya dua hal: keberanian untuk mengambil keputusan yang benar dan integritas untuk tidak tergoda oleh kekuasaan.",
+              author: "Mahfud MD",
+              role: "Mantan Menkopolhukam",
+            },
+            {
+              imageUrl: "./img/LS-8.jpg",
+              mainText: "SEMANGAT\n& TERUS MAJU",
+              quote: "Jangan gampang nyerah. Rank itu bisa dikejar, yang penting proses naikin skill-nya dinikmati. Jangan terlalu peduliin omongan orang yang nggak ngebangun. Mereka nggak tahu perjuangan kita.",
+              author: "Anastasya Yasmeen",
+              role: "Dokter Cantik, Influencer",
+            },
+            {
+              imageUrl: "./img/LS-9.jpg",
+              mainText: "DEWASA\n& SUPPORT",
+              quote: "Semoga di prosesnya kalian menuju keatas (dewasa) dapat menjadi pribadi yang lebih baik dan kalian menemukan orang - orang yang support.",
+              author: "Mas Ade Setiawan",
+              role: "Ex Analys Evos Esport, Influencer",
+            },
+            {
+              imageUrl: "./img/LS-12.jpg",
+              mainText: "LEARN\n& GROW",
+              quote: "Live as if you were to die tomorrow. Learn as if you were to live forever. Continuous learning is key.",
+              author: "Kurator Perpust",
+              role: "Admin SMK",
+            },
+            {
+              imageUrl: "./img/LS-14.jpg",
+              mainText: "TEAM UP\n& SUCCEED",
+              quote: "Teamwork makes the dream work. Coming together is a beginning, staying together is progress, and working together is success.",
+              author: "Muh. Fikri Abhyasa",
+              role: "Developer",
+            },
+            {
+              imageUrl: "./img/LS-16.jpg",
+              mainText: "DESIGN\n& CREATE",
+              quote: "Design is not just what it looks like and feels like. Design is how it works. Create with purpose and passion.",
+              author: "Steve Jobs",
+              role: "Ex Directur Apple",
+            },
+            {
+              imageUrl: "./img/LS-18.jpg",
+              mainText: "PRESENT\n& SHARE",
+              quote: "The success of your presentation will be judged not by the knowledge you send but by what the listener receives.",
+              author: "Anomaly",
+              role: "User",
+            },
+            {
+              imageUrl: "./img/LS-20.jpg",
+              mainText: "STRATEGIZE\n& EXECUTE",
+              quote: "Strategy without tactics is the slowest route to victory. Tactics without strategy is the noise before defeat.",
+              author: "Admin Perpustakaan",
+              role: "Kepala Perpustakaan",
+            },
+          ],
+          init() {
+            this.startAutoplay();
+          },
+          startAutoplay() {
+            this.stopAutoplay();
+            this.intervalId = setInterval(() => {
+              this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+            }, 5000);
+          },
+          stopAutoplay() {
+            if (this.intervalId) {
+              clearInterval(this.intervalId);
+              this.intervalId = null;
+            }
+          },
+          previous() {
+            this.stopAutoplay();
+            this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+            this.startAutoplay();
+          },
+          next() {
+            this.stopAutoplay();
+            this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+            this.startAutoplay();
+          },
+          get currentSlide() {
+            return this.slides[this.currentIndex];
+          },
+        };
+      }
+    </script>
+    <footer id="footer" class="pt-10 bg-white" data-aos="zoom-in" data-aos-duration="800">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-wrap">
+          <div class="w-full px-4 mb-10 text-black font-normal md:w-1/3">
+            <h3 class="text-2xl font-bold mb-2">Tentang</h3>
+            <p>PerpustakaanMu berada di Perpustakaan SMK Model Patriot IV Ciawigebang.</p>
+            <div class="flex space-x-4 w-full pt-4">
+              <a href="https://www.instagram.com/smk.modelpatriot_iv" target="blank" class="rounded-md p-2 bg-purple-600 hover:bg-purple-700 transition duration-300"
+                ><i data-feather="instagram" class="text-white"></i
+              ></a>
+              <a href="mailto:ictsmopat@gmail.com" class="rounded-md p-2 bg-orange-600 hover:bg-orange-700 transition duration-300"><i data-feather="mail" class="text-white"></i></a>
+              <a href="https://www.youtube.com/@patriotdaily_" target="blank" class="rounded-md p-2 bg-red-700 hover:bg-red-800 transition duration-300"><i data-feather="youtube" class="text-white"></i></a>
+            </div>
+          </div>
+          <div class="w-full px-4 mb-10 md:w-1/3">
+            <h2 class="text-2xl font-bold text-black">Berita Terbaru</h2>
+            <div class="flex mt-2.5">
+              <div class="flex hover:text-green0 transition duration-300 min-w-0 overflow-hidden items-center mb-1 text-black">
+                <i data-feather="chevron-right" class="transform -translate-x-1 flex-shrink-0"></i><a href="#" class="line-clamp-1 flex-1 min-w-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</a>
+              </div>
+            </div>
+            <div class="flex mt-2.5">
+              <div class="flex hover:text-green0 transition duration-300 min-w-0 overflow-hidden items-center mb-1 text-black">
+                <i data-feather="chevron-right" class="transform -translate-x-1 flex-shrink-0"></i><a href="#" class="line-clamp-1 flex-1 min-w-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</a>
+              </div>
+            </div>
+            <div class="flex mt-2.5">
+              <div class="flex hover:text-green0 transition duration-300 min-w-0 overflow-hidden items-center mb-1 text-black">
+                <i data-feather="chevron-right" class="transform -translate-x-1 flex-shrink-0"></i><a href="#" class="line-clamp-1 flex-1 min-w-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</a>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 mb-10 md:w-1/3">
+            <h2 class="text-2xl font-bold mb-2.5 text-black">Yuk Gabung</h2>
+            <form action="">
+              <input
+                type="email"
+                id="email_footer"
+                placeholder="Masukkan E-Mail Mu disini !"
+                class="bg-green0 font-normal p-3 w-full rounded-md block text-sm placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue2 focus:border-blue-2 invalid:text-red-600 invalid:focus:ring-red-600 invalid:focus:border-red-600"
+              />
+            </form>
+            <div class="w-full bg-orange-600 p-3 mt-2 rounded-md cursor-pointer hover:bg-orange-400 transition duration-300"><a href="#" class="text-white text-sm block">Gabung Sekarang</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 border-t border-slate-600 w-full">
+        <div class="container mx-auto px-6">
+          <p class="py-4 font-medium text-black text-xs text-center">
+            © 2025 Perpust SMK Patriot Cwg | Develop by <a href="https://www.instagram.com/muhamadfikri_abhyasa/" class="font-bold text-black" target="blank">Muh. Fikri Abhyasa</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+    <a href="#home" id="to-top" class="fixed z-[9999] hidden h-10 w-10 items-center justify-center rounded-full bg-green1 bottom-4 right-4 shadow-lg hover:animate-pulse transition duration-300">
+      <i data-feather="chevron-up" class="h-5 w-5 text-white"></i>
+    </a>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+      feather.replace();
+    </script>
+
+    <script src="./js/script.js"></script>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  </body>
+</html>

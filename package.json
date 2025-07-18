@@ -1,0 +1,24 @@
+{
+  "name": "fe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "copy-assets": "copyfiles -u 1 \"src/**/*.html\" \"src/js/**/*\" \"src/img/**/*\" dist",
+    "build-css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "build": "npm run clean && npm run copy-assets && npm run build-css",
+    "dev": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.7",
+    "tailwindcss": "^4.1.7"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "rimraf": "^6.0.1"
+  }
+}

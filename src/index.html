@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  x-data="{ isMobileMenuOpen: false, isDarkMode: localStorage.getItem('theme') === 'dark' }"
+  x-init="$watch('isDarkMode', val => localStorage.setItem('theme', val ? 'dark' : 'light'))"
+  :class="{ 'dark': isDarkMode }"
+>
+  <head>
+    <!-- SEO -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="Perpustakaan, SMK, buku, digital, SMK Model Patriot IV Ciawigebang" />
+    <meta name="author" content="Dev && Admin Perpustakaan" />
+    <meta name="description" content="Website perpustakaan SMK Patriot IV Ciawigebang" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="./img/Favicon.png" type="image/x-icon" />
+
+    <!-- AOS Js -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+    <!-- Swiper Js -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <!-- Alpine Js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+    <!-- CSS -->
+    <link href="./output.css" rel="stylesheet" />
+
+    <title>Perpustakaan | SMK Model Patriot IV Ciawigebang</title>
+  </head>
+
+  <body class="font-sans bg-white">
+    <!-- Start Header -->
+    <header data-aos="fade-down" data-aos-duration="800" data-aos-once="true" class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <div class="flex items-center space-x-4 md:space-x-8">
+          <a href="index.html"><img src="./img/Logo.png" alt="Logo Perpustakaan" class="h-10 w-10" /></a>
+          <nav class="hidden md:flex space-x-6 text-md font-medium">
+            <a href="#home" class="text-black hover:text-green0 transition duration-500">Beranda</a>
+            <a href="#home" class="text-black hover:text-green0 transition duration-500">Tentang</a>
+            <a href="#announcement" class="text-black hover:text-green0 transition duration-500">Fitur</a>
+            <div class="relative" x-data="{ open: false, timeout: null }" @mouseenter="clearTimeout(timeout); open = true" @mouseleave="timeout = setTimeout(() => { open = false }, 100)" class="cursor-pointer">
+              <button @mouseover="open = true" class="flex items-center space-x-1 text-black hover:text-green0 transition duration-500 cursor-pointer">
+                <span>Berita</span>
+                <i data-feather="chevron-down" class="w-5 h-5 text-black cursor-pointer hover:text-green0 transition duration-500"></i>
+              </button>
+              <div
+                x-show="open"
+                class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform translate-y-2"
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 transform translate-y-0"
+                x-transition:leave-end="opacity-0 transform translate-y-2"
+              >
+                <a href="artikel-view.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">Berita Sekolah</a>
+                <a href="artikel-view.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">Berita Perpustakaan</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <button @click="isDarkMode = !isDarkMode" class="hidden md:block text-black hover:text-green0 transition duration-500 focus:outline-none">
+            <i x-show="!isDarkMode" data-feather="sun" stroke-width="1.5" class="w-5 h-5 cursor-pointer"></i>
+            <i x-show="isDarkMode" data-feather="moon" stroke-width="1.5" class="w-5 h-5 cursor-pointer" style="display: none"></i>
+          </button>
+
+          <a href="#" class="hidden md:block text-black hover:text-green0 transition duration-500">
+            <i data-feather="bell" stroke-width="1.5" class="w-5 h-5"></i>
+          </a>
+
+          <a href="signup.html" class="hidden md:block text-black hover:text-green0 transition duration-500">
+            <i data-feather="user" stroke-width="1.5" class="w-5 h-5"></i>
+          </a>
+
+          <button
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
+            class="md:hidden text-gray-700 hover:text-green0 transition duration-500 focus:outline-none"
+            :aria-expanded="isMobileMenuOpen.toString()"
+            aria-controls="mobileNavMenu"
+          >
+            <i data-feather="menu" stroke-width="1.5" class="w-6 h-6 block" x-show="!isMobileMenuOpen" x-cloak></i>
+            <i data-feather="x" stroke-width="1.5" class="w-6 h-6 block" x-show="isMobileMenuOpen" x-cloak style="display: none"></i>
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="mobileNavMenu"
+        x-show="isMobileMenuOpen"
+        @click.outside="isMobileMenuOpen = false"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform scale-95"
+        x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 transform scale-100"
+        x-transition:leave-end="opacity-0 transform scale-95"
+        class="absolute top-full right-4 mt-2 w-60 bg-white rounded-lg shadow-sm border border-gray-200 md:hidden"
+        x-cloak
+        style="display: none"
+      >
+        <nav class="flex flex-col py-2">
+          <a href="#home" @click="isMobileMenuOpen = false" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Beranda</a>
+          <a href="#home" @click="isMobileMenuOpen = false" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Tentang</a>
+          <a href="#announcement" @click="isMobileMenuOpen = false" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Fitur</a>
+          <div x-data="{ subMenuOpen: false }">
+            <button @click="subMenuOpen = !subMenuOpen" class="flex items-center justify-between w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0 cursor-pointer">
+              <span>Berita</span>
+              <i data-feather="chevron-down" class="w-4 h-4" x-show="!subMenuOpen"></i>
+              <i data-feather="chevron-up" class="w-4 h-4" x-show="subMenuOpen" style="display: none"></i>
+            </button>
+            <div x-show="subMenuOpen" class="ml-4 flex flex-col" style="display: none">
+              <a href="artikel-view.html" @click="isMobileMenuOpen = false; subMenuOpen = false;" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Berita Sekolah</a>
+              <a href="artikel-view.html" @click="isMobileMenuOpen = false; subMenuOpen = false;" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">Berita Perpustakaan</a>
+            </div>
+          </div>
+          <hr class="my-2 border-gray-100" />
+          <a href="#" @click="isMobileMenuOpen = false" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">
+            <i data-feather="bell" class="w-5 h-5"></i>
+            <span>Notifikasi</span>
+          </a>
+          <a href="signup.html" @click="isMobileMenuOpen = false" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green0">
+            <i data-feather="user" class="w-5 h-5"></i>
+            <span>Profil</span>
+          </a>
+          <hr class="my-2 border-gray-100" />
+          <div class="px-4 py-2.5 text-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600" :class="{ 'text-green0 font-semibold': !isDarkMode }">Light</span>
+              <button
+                type="button"
+                @click="isDarkMode = !isDarkMode; console.log('Dark mode toggled:', isDarkMode)"
+                :class="{ 'bg-green-600': isDarkMode, 'bg-gray-200': !isDarkMode }"
+                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                role="switch"
+                :aria-checked="isDarkMode.toString()"
+              >
+                <span class="sr-only">Use setting</span>
+                <span
+                  :class="{ 'translate-x-5': isDarkMode, 'translate-x-0': !isDarkMode }"
+                  class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                >
+                  <span
+                    :class="{ 'opacity-0 ease-out duration-100': isDarkMode, 'opacity-100 ease-in duration-200': !isDarkMode }"
+                    class="absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
+                    aria-hidden="true"
+                    ><i data-feather="sun" class="h-3 w-3 text-gray-400"></i
+                  ></span>
+                  <span
+                    :class="{ 'opacity-100 ease-in duration-200': isDarkMode, 'opacity-0 ease-out duration-100': !isDarkMode }"
+                    class="absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
+                    aria-hidden="true"
+                    ><i data-feather="moon" class="h-3 w-3 text-green0"></i
+                  ></span>
+                </span>
+              </button>
+              <span class="text-gray-600" :class="{ 'text-green0 font-semibold': isDarkMode }">Dark</span>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Start Hero Section -->
+    <section id="home">
+      <div data-aos="zoom-in" data-aos-duration="800" class="bg-green3">
+        <div class="container mx-auto flex flex-wrap px-6 py-6">
+          <div class="w-full self-center lg:w-1/2">
+            <h1 class="text-xl font-medium md:font-bold my-2 md:text-2xl">Mau Pinjam Buku ?</h1>
+            <h2 class="text-2xl md:text-4xl md:font-bold font-semibold text-black">
+              Kini Pinjam Lebih
+              <span class="text-green0 font-bold">
+                <span id="typingText" class="pr-1 align-middle min-w-[80px] h-[40px] relative -bottom-0.5 md:-top-0.5"></span>
+              </span>
+              <span class="block mb-2 md:font-bold md:text-4xl">Pakai Perpustakaanmu</span>
+            </h2>
+            <p class="font-normal text-lg mb-8 md:text-lg md:font-semibold">
+              PerpustakaanMu merupakan Aplikasi Perpustakaan Berbasis <span class="italic">Website</span> yang mendukung segala jenis KegiatanMu di Perpustakaan
+            </p>
+            <a href="#" class="bg-green0 px-4 py-2 inline-flex items-center rounded-md text-white hover:shadow-md transition duration-300 hover:bg-green-700 md:text-xl md:font-medium">
+              Pinjam Sekarang
+              <span class="ml-2"><i data-feather="arrow-right" stroke-width="1.5" class="w-5 h-5 text-white md:font md:stroke-3"></i> </span>
+            </a>
+          </div>
+          <div class="w-full self-center lg:w-1/2 mt-6 lg:mt-0 flex justify-center lg:justify-end items-center">
+            <div class="my-10"><img src="./img/Hero-img.png" alt="Perpustkaan Img" class="max-w-full w-auto h-auto sm:w-[275px] sm:h-[275px]" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Hero Section -->
+
+    <!-- Start Announcement -->
+    <section id="announcement" data-aos="zoom-in" data-aos-duration="800" class="py-8 bg-white">
+      <div class="bg-green3">
+        <div class="container mx-auto px-6 py-6">
+          <div class="flex bg-white rounded-md shadow-sm items-stretch">
+            <div class="bg-green0 rounded-l-md p-3 flex items-center justify-center flex-shrink-0"><i data-feather="volume-2" stroke-width="1.5" class="w-5 h-5 text-white"></i></div>
+            <div class="marquee-container flex-grow flex items-center overflow-hidden mr-4">
+              <h2 id="announcement-text" class="marquee-text font-normal text-sm text-black whitespace-nowrap">Memuat pengumuman...</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Announcement -->
+
+    <!-- Start CTA -->
+    <section id="cta" class="pb-8 px-6 bg-white">
+      <div class="container mx-auto flex flex-col lg:flex-row gap-8">
+        <div class="w-full lg:w-1/2" data-aos="fade-right" data-aos-duration="800">
+          <div class="bg-green0 rounded-md shadow-sm w-full h-full flex flex-col lg:flex-row items-center overflow-hidden">
+            <div class="w-full lg:w-2/3 p-8 order-2 lg:order-1 flex flex-col justify-center">
+              <h1 class="text-center lg:text-left text-white text-2xl font-bold mb-2">Mau Pinjam Buku ?</h1>
+              <p class="text-center lg:text-left text-white mb-4">Yuk! Jangan Lupa Konfirmasi Peminjamanmu disini ya!</p>
+              <div class="flex justify-center lg:justify-start">
+                <a href="#" class="flex items-center gap-2 px-4 py-2 bg-green2 text-black rounded-md shadow-sm hover:bg-green-100 transition duration-300">
+                  Konfirmasi <i data-feather="arrow-right" stroke-width="1.5" class="w-5 h-5 text-black"></i>
+                </a>
+              </div>
+            </div>
+            <div class="w-1/2 lg:w-1/3 p-4 order-1 lg:order-2 hidden lg:block"><img src="./img/CTA-img1.png" alt="Pinjam Buku" class="h-[160px] w-auto rounded-md lg:ml-8" /></div>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2" data-aos="fade-left" data-aos-duration="800">
+          <div class="bg-green0 rounded-md shadow-sm w-full h-full flex flex-col lg:flex-row items-center overflow-hidden">
+            <div class="w-full lg:w-2/3 p-8 order-2 lg:order-1 flex flex-col justify-center">
+              <h1 class="text-center lg:text-left text-white text-2xl font-bold mb-2">Mau Kembalikan Buku ?</h1>
+              <p class="text-center lg:text-left text-white mb-4">Yuk ! Jangan Lupa Konfirmasi Pengembalianmu disini Ya !</p>
+              <div class="flex justify-center lg:justify-start">
+                <a href="#" class="flex items-center gap-2 px-4 py-2 bg-green2 text-black rounded-md shadow-sm hover:bg-green-100 transition duration-300">
+                  Kembalikan <i data-feather="arrow-right" stroke-width="1.5" class="w-5 h-5 text-black"></i>
+                </a>
+              </div>
+            </div>
+            <div class="w-1/2 lg:w-1/3 p-4 order-1 lg:order-2 hidden lg:block"><img src="./img/CTA-img2.png" alt="Kembalikan Buku" class="h-[160px] w-auto rounded-md lg:ml-3" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End CTA -->
+
+    <!-- Start Book Section -->
+    <section id="book-v" class="pt-2 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="w-full mb-4">
+          <div data-aos="zoom-out" data-aos-duration="800">
+            <h1 class="text-xl font-semibold text-black">Kategori</h1>
+            <div class="flex flex-col mt-1 sm:flex-row sm:justify-between sm:items-center">
+              <p class="text-sm md:text-base text-black">Buku dan Karya Tulis Ilmiah tahun 2024-2025</p>
+              <a href="book-view.html" class="flex items-center text-sm md:text-base text-black hover:underline mt-1 sm:mt-0"> Baca Selengkapnya <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i> </a>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center carousel-container" data-aos="fade-up" data-aos-duration="800">
+          <button id="prevBtn" class="p-2"><i class="w-8 h-8 text-black" data-feather="chevron-left"></i></button>
+          <div id="carousel-viewport" class="w-full overflow-hidden">
+            <div id="carousel-track" class="flex">
+              <div class="w-full md:w-1/2 lg:w-1/4 p-2 flex-shrink-0">
+                <a href="#" class="block">
+                  <div class="h-80 rounded-md overflow-hidden group">
+                    <img src="./img/buku1.jpg" alt="Cover Buku Dasar Pemrograman" class="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
+                  </div>
+                  <h3 class="text-center font-semibold mt-2 hover:text-green0 transition duration-300 text-black">Dasar Pemrograman</h3>
+                </a>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-1/4 p-2 flex-shrink-0">
+                <a href="#" class="block">
+                  <div class="h-80 rounded-md overflow-hidden group">
+                    <img src="./img/buku2.jpg" alt="Cover Buku Panduan Desain" class="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
+                  </div>
+                  <h3 class="text-center font-semibold mt-2 hover:text-green0 transition duration-300 text-black">Panduan Desain</h3>
+                </a>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-1/4 p-2 flex-shrink-0">
+                <a href="#" class="block">
+                  <div class="h-80 rounded-md overflow-hidden group">
+                    <img src="./img/buku3.jpg" alt="Cover Buku Manajemen Proyek" class="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
+                  </div>
+                  <h3 class="text-center font-semibold mt-2 hover:text-green0 transition duration-300 text-black">Manajemen Proyek</h3>
+                </a>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-1/4 p-2 flex-shrink-0">
+                <a href="#" class="block">
+                  <div class="h-80 rounded-md overflow-hidden group">
+                    <img src="./img/buku4.jpg" alt="Cover Buku Digital Marketing" class="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
+                  </div>
+                  <h3 class="text-center font-semibold mt-2 hover:text-green0 transition duration-300 text-black">Digital Marketing</h3>
+                </a>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-1/4 p-2 flex-shrink-0">
+                <a href="#" class="block">
+                  <div class="h-80 rounded-md overflow-hidden group">
+                    <img src="./img/buku5.jpg" alt="Cover Buku Data Science" class="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
+                  </div>
+                  <h3 class="text-center font-semibold mt-2 hover:text-green0 transition duration-300 text-black">Data Science</h3>
+                </a>
+              </div>
+              <div class="w-full md:w-1/2 lg:w-1/4 p-2 flex-shrink-0">
+                <a href="#" class="block">
+                  <div class="h-80 rounded-md overflow-hidden group">
+                    <img src="./img/buku6.jpg" alt="Cover Buku AI & Machine Learning" class="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
+                  </div>
+                  <h3 class="text-center font-semibold mt-2 hover:text-green0 transition duration-300 text-black">AI & Machine Learning</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+          <button id="nextBtn" class="p-2"><i class="w-8 h-8 text-black" data-feather="chevron-right"></i></button>
+        </div>
+      </div>
+    </section>
+    <!-- End Book Section -->
+
+    <!-- Start Berita Section -->
+    <section id="berita" class="pt-4 pb-8 bg-white">
+      <div class="container mx-auto px-4 sm:px-6">
+        <div class="my-4">
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end" data-aos="zoom-out" data-aos-duration="800">
+            <div>
+              <h1 class="text-xl md:text-2xl font-semibold text-black">Berita</h1>
+              <p class="text-black text-sm md:text-base">Berita terbaru seputar Perpustakaan</p>
+            </div>
+            <a href="artikel-view.html" class="flex items-center text-sm md:text-base hover:underline mt-2 sm:mt-0 text-black"> Lihat Semua Berita <i data-feather="arrow-right" class="ml-1 w-5 h-5"></i> </a>
+          </div>
+        </div>
+        <div class="relative overflow-hidden shadow-lg rounded-lg group" data-aos="zoom-in" data-aos-duration="1000">
+          <img src="./img/News-headline.jpg" alt="Headline News" class="block w-full h-80 md:h-96 lg:h-[500px] object-cover transform group-hover:scale-125 group-hover:rotate-3 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8 z-10">
+            <h2 class="text-white text-xl sm:text-2xl lg:text-4xl font-bold mb-2 lg:mb-4">
+              <a href="artikel-read.html" class="hover:text-green-300 transition duration-300 after:absolute after:inset-0"> Judul Berita Utama </a>
+            </h2>
+            <a href="artikel-read.html"
+              ><p class="text-gray-200 text-sm lg:text-lg mb-4 line-clamp-2 md:line-clamp-3">
+                Ini adalah deskripsi singkat untuk berita utama. Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, itaque sdhfdshfdhud Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui,
+                temporibus..
+              </p></a
+            >
+            <div class="flex items-center text-xs sm:text-sm text-gray-300"><span class="font-medium">Admin Yami</span> <span class="mx-2">|</span> <span>Senin, 08 April 2025</span></div>
+          </div>
+        </div>
+        <div class="pt-6">
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col relative group" data-aos="fade-right" data-aos-duration="800">
+              <div class="overflow-hidden"><img src="./img/News-img.png" alt="Berita 1" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" /></div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                  <a href="artikel-read.html" class="group-hover:text-green0 transition-colors duration-300 after:absolute after:inset-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, consectetur.
+                  </a>
+                </h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, ipsam! Lorem ipsum dolor sit.</p>
+                <div class="mt-auto pt-3 text-xs text-gray-600 border-t border-gray-100"><span class="mr-2">Admin Yami</span> <span>|</span> <span class="ml-2">Senin, 08 April 2025</span></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col relative group" data-aos="fade-right" data-aos-duration="800">
+              <div class="overflow-hidden"><img src="./img/News-img.png" alt="Berita 2" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" /></div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                  <a href="artikel-read.html" class="group-hover:text-green0 transition-colors duration-300 after:absolute after:inset-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, consectetur.
+                  </a>
+                </h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, ipsam! Lorem ipsum dolor sit.</p>
+                <div class="mt-auto pt-3 text-xs text-gray-600 border-t border-gray-100"><span class="mr-2">Admin Yami</span> <span>|</span> <span class="ml-2">Senin, 08 April 2025</span></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col relative group" data-aos="fade-right" data-aos-duration="800">
+              <div class="overflow-hidden"><img src="./img/News-img.png" alt="Berita 3" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" /></div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                  <a href="artikel-read.html" class="group-hover:text-green0 transition-colors duration-300 after:absolute after:inset-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, consectetur.
+                  </a>
+                </h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, ipsam! Lorem ipsum dolor sit.</p>
+                <div class="mt-auto pt-3 text-xs text-gray-600 border-t border-gray-100"><span class="mr-2">Admin Yami</span> <span>|</span> <span class="ml-2">Senin, 08 April 2025</span></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex-col relative group hidden md:flex" data-aos="fade-left" data-aos-duration="800">
+              <div class="overflow-hidden"><img src="./img/News-img.png" alt="Berita 4" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" /></div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                  <a href="artikel-read.html" class="group-hover:text-green0 transition-colors duration-300 after:absolute after:inset-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, consectetur.
+                  </a>
+                </h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, ipsam! Lorem ipsum dolor sit.</p>
+                <div class="mt-auto pt-3 text-xs text-gray-600 border-t border-gray-100"><span class="mr-2">Admin Yami</span> <span>|</span> <span class="ml-2">Senin, 08 April 2025</span></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex-col relative group hidden lg:flex" data-aos="fade-left" data-aos-duration="800">
+              <div class="overflow-hidden"><img src="./img/News-img.png" alt="Berita 5" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" /></div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                  <a href="artikel-read.html" class="group-hover:text-green0 transition-colors duration-300 after:absolute after:inset-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, consectetur.
+                  </a>
+                </h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, ipsam! Lorem ipsum dolor sit.</p>
+                <div class="mt-auto pt-3 text-xs text-gray-600 border-t border-gray-100"><span class="mr-2">Admin Yami</span> <span>|</span> <span class="ml-2">Senin, 08 April 2025</span></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex-col relative group hidden lg:flex" data-aos="fade-left" data-aos-duration="800">
+              <div class="overflow-hidden"><img src="./img/News-img.png" alt="Berita 6" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" /></div>
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+                  <a href="artikel-read.html" class="group-hover:text-green0 transition-colors duration-300 after:absolute after:inset-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, consectetur.
+                  </a>
+                </h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, ipsam! Lorem ipsum dolor sit.</p>
+                <div class="mt-auto pt-3 text-xs text-gray-600 border-t border-gray-100"><span class="mr-2">Admin Yami</span> <span>|</span> <span class="ml-2">Senin, 08 April 2025</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Berita Section -->
+
+    <!-- Start Testimonial Section -->
+    <section class="bg-white py-8">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-10 md:mb-16" data-aos="zoom-in" data-aos-duration="800"><h2 class="text-3xl md:text-4xl font-bold text-green0 mt-2">Apa Kata Mereka ?</h2></div>
+        <div class="swiper testimonial-swiper" data-aos="fade-right" data-aos-duration="800">
+          <div class="swiper-wrapper pb-12 md:pb-16">
+            <div class="swiper-slide h-auto">
+              <div class="bg-slate-50 hover:bg-white p-6 rounded-xl shadow-sm flex flex-col h-full hover:shadow-lg transition-all duration-300">
+                <div class="flex items-start mb-4">
+                  <img src="./img/Kepsek.jpeg" alt="Kepsek Patriot" class="w-14 h-14 rounded-full object-cover mr-4" />
+                  <div>
+                    <h4 class="font-semibold text-gray-800 text-lg">Kepala Sekolah</h4>
+                    <p class="text-sm text-gray-500">Drs. H. Iip Sabit, M.A</p>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
+                  "Luar biasa! Saya sangat terkesan dengan semangat dan hasil kerja dari mahasiswa. Mereka mendengarkan kebutuhan kami dengan baik dan mewujudkannya menjadi website perpustakaan yang fungsional dan mudah
+                  digunakan. Kerjasama ini adalah bukti nyata bagaimana generasi muda bisa membawa perubahan positif."
+                </p>
+              </div>
+            </div>
+            <div class="swiper-slide h-auto">
+              <div class="bg-slate-50 hover:bg-white p-6 rounded-xl shadow-sm flex flex-col h-full hover:shadow-lg transition-all duration-300">
+                <div class="flex items-start mb-4">
+                  <img src="./img/blank-img.png" alt="Wakasek Patriot" class="w-14 h-14 rounded-full object-cover mr-4" />
+                  <div>
+                    <h4 class="font-semibold text-gray-800 text-lg">Wakasek Bidang Kurikulum</h4>
+                    <p class="text-sm text-gray-500">H. Andi Yulia Riadi, M.I.Kom</p>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
+                  "Sebagai guru, website perpustakaan ini sangat membantu saya dalam memberikan kemudahan dan efektivitas di sekolah. Saya bisa mengarahkan mereka untuk segera kembali menghidupkan perpustakaan dengan
+                  adanya website ini siswa harus memanfaatkannya. Website ini dapat menjadi langkah kami menuju sekolah digital di tahun ini.
+                </p>
+              </div>
+            </div>
+            <div class="swiper-slide h-auto">
+              <div class="bg-slate-50 hover:bg-white p-6 rounded-xl shadow-sm flex flex-col h-full hover:shadow-lg transition-all duration-300">
+                <div class="flex items-start mb-4">
+                  <img src="./img/blank-img.png" alt="Kepala Perpustakaan Patriot" class="w-14 h-14 rounded-full object-cover mr-4" />
+                  <div>
+                    <h4 class="font-semibold text-gray-800 text-lg">Kepala Perpustakaan</h4>
+                    <p class="text-sm text-gray-500">Siti Mutmaenah, Amd. Pust</p>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
+                  "Awalnya saya khawatir sistemnya akan rumit, tetapi ternyata sangat intuitif dan mudah dioperasikan. Darimahasiswa juga memberikan pelatihan yang sangat jelas. Sekarang, pendataan buku baru hingga
+                  laporan peminjaman bisa dilakukan hanya dengan beberapa klik. Sangat efisien! mudah-mudahan ini menjadi titik awal bangkitnya perpustakaan"
+                </p>
+              </div>
+            </div>
+            <div class="swiper-slide h-auto">
+              <div class="bg-slate-50 hover:bg-white p-6 rounded-xl shadow-sm flex flex-col h-full hover:shadow-lg transition-all duration-300">
+                <div class="flex items-start mb-4">
+                  <img src="./img/Foto_MuhamadFikri.png" alt="Developer" class="w-14 h-14 rounded-full object-cover mr-4" />
+                  <div>
+                    <h4 class="font-semibold text-gray-800 text-lg">Developer</h4>
+                    <p class="text-sm text-gray-500">Muh. Fikri Abhyasa</p>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
+                  "Saya harap dengan adanya websiter perpustakaan SMK Model Patriot IV Ciawigebang ini dapat membantu berbagai bentuk administrasi teknis maupun non-teknis yang ada di perpustakaan. Semoga kedepannya
+                  perpustakaan di SMK Model Patriot IV Ciawigebang bisa menjadi perpustakaan yang lebih unggul di bandingkan perpustakaan lainnya."
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+    <!-- End Testimonial Section -->
+
+    <!-- Start Join Section -->
+    <section id="join" class="px-6 py-8 bg-white" data-aos="zoom-in" data-aos-duration="800">
+      <div class="container mx-auto bg-green0 rounded-md">
+        <div class="flex flex-wrap">
+          <div class="w-full p-6 mx-auto">
+            <h1 class="font-bold text-2xl text-white">Ayok Gabung dan Cobalah Fiturnya</h1>
+            <div class="flex flex-wrap">
+              <p class="text-white text-sm mt-2">
+                Perpustakaan SMK Model Patriot IV Ciawigebang Kini Hadir dalam Bentuk Digital yang mengandalkan Website demi Kemudahan dalam menunjang segala kegiatan Kepustakaan baik Administrasi dan Kegiatan Transaksi.
+              </p>
+            </div>
+          </div>
+          <div class="w-full p-6 mx-auto -mt-6">
+            <form action="">
+              <input
+                type="email"
+                id="email"
+                placeholder="Masukkan E-Mail Mu disini !"
+                class="text-center px-4 py-2 w-full rounded-md block text-sm placeholder:text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue1 focus:border-blue1 invalid:text-red-600 invalid:focus:ring-red-600 invalid:focus:border-red-600 bg-white"
+              />
+            </form>
+            <div class="w-full bg-blue2 px-4 py-2 mt-2 rounded-md text-center cursor-pointer hover:bg-blue1 transition duration-300 text-white"><a href="signup.html" class="">Gabung Sekarang</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Join Section -->
+
+    <!-- Start Footer -->
+    <footer id="footer" class="pt-10 bg-white" data-aos="zoom-in" data-aos-duration="800">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-wrap">
+          <div class="w-full px-4 mb-10 text-black font-normal md:w-1/3">
+            <h3 class="text-2xl font-bold mb-2">Tentang</h3>
+            <p>PerpustakaanMu berada di Perpustakaan SMK Model Patriot IV Ciawigebang.</p>
+            <div class="flex space-x-4 w-full pt-4">
+              <a href="https://www.instagram.com/smk.modelpatriot_iv" target="blank" class="rounded-md p-2 bg-purple-600 hover:bg-purple-700 transition duration-300"
+                ><i data-feather="instagram" class="text-white"></i
+              ></a>
+              <a href="mailto:ictsmopat@gmail.com" class="rounded-md p-2 bg-orange-600 hover:bg-orange-700 transition duration-300"><i data-feather="mail" class="text-white"></i></a>
+              <a href="https://www.youtube.com/@patriotdaily_" target="blank" class="rounded-md p-2 bg-red-700 hover:bg-red-800 transition duration-300"><i data-feather="youtube" class="text-white"></i></a>
+            </div>
+          </div>
+          <div class="w-full px-4 mb-10 md:w-1/3">
+            <h2 class="text-2xl font-bold text-black">Berita Terbaru</h2>
+            <div class="flex mt-2.5">
+              <div class="flex hover:text-green0 transition duration-300 min-w-0 overflow-hidden items-center mb-1 text-black">
+                <i data-feather="chevron-right" class="transform -translate-x-1 flex-shrink-0"></i><a href="#" class="line-clamp-1 flex-1 min-w-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</a>
+              </div>
+            </div>
+            <div class="flex mt-2.5">
+              <div class="flex hover:text-green0 transition duration-300 min-w-0 overflow-hidden items-center mb-1 text-black">
+                <i data-feather="chevron-right" class="transform -translate-x-1 flex-shrink-0"></i><a href="#" class="line-clamp-1 flex-1 min-w-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</a>
+              </div>
+            </div>
+            <div class="flex mt-2.5">
+              <div class="flex hover:text-green0 transition duration-300 min-w-0 overflow-hidden items-center mb-1 text-black">
+                <i data-feather="chevron-right" class="transform -translate-x-1 flex-shrink-0"></i><a href="#" class="line-clamp-1 flex-1 min-w-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</a>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 mb-10 md:w-1/3">
+            <h2 class="text-2xl font-bold mb-2.5 text-black">Yuk Gabung</h2>
+            <form action="">
+              <input
+                type="email"
+                id="email_footer"
+                placeholder="Masukkan E-Mail Mu disini !"
+                class="bg-green0 font-normal p-3 w-full rounded-md block text-sm placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue2 focus:border-blue-2 invalid:text-red-600 invalid:focus:ring-red-600 invalid:focus:border-red-600"
+              />
+            </form>
+            <div class="w-full bg-orange-600 p-3 mt-2 rounded-md cursor-pointer hover:bg-orange-400 transition duration-300"><a href="signup.html" class="text-white text-sm block">Gabung Sekarang</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Start Copyright -->
+      <div class="mt-4 border-t border-slate-600 w-full">
+        <div class="container mx-auto px-6">
+          <p class="py-4 font-medium text-black text-xs text-center">
+            © 2025 Perpust SMK Patriot Cwg | Develop by <a href="https://www.instagram.com/muhamadfikri_abhyasa/" class="font-bold text-black" target="blank">Muh. Fikri Abhyasa</a>
+          </p>
+        </div>
+      </div>
+      <!-- End Copyright -->
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Start BTT -->
+    <a href="#home" id="to-top" class="fixed z-[9999] hidden h-10 w-10 items-center justify-center rounded-full bg-green1 bottom-4 right-4 shadow-lg hover:animate-pulse transition duration-300">
+      <i data-feather="chevron-up" class="h-5 w-5 text-white"></i>
+    </a>
+    <!-- End BTT -->
+
+    <!-- Feather Icon -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- Script Js -->
+    <script src="./js/script.js"></script>
+
+    <!-- AOS Js -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+
+    <!-- Swiper Js -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  </body>
+</html>
